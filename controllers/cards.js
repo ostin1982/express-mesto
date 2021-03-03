@@ -6,13 +6,10 @@ const getCards = (req, res) => Card.find({})
 
 const createCard = (req, res) => {
   Card.create({ ...req.body })
-    .orFail(new Error('NotFound'))
     .then((cards) => res.status(200).send(cards))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(400).send({ message: 'Некорректные данные карточки' });
-      } else if (err.message === 'NotFound') {
-        res.status(404).send({ message: 'Карточка с таким id не найдена' });
       } else {
         res.status(500).send({ message: 'Ошибка на сервере' });
       }

@@ -20,13 +20,10 @@ const getProfile = (req, res) => {
 };
 
 const createProfile = (req, res) => User.create({ ...req.body })
-  .orFail(new Error('NotFound'))
   .then((user) => res.status(200).send(user))
   .catch((err) => {
     if (err.name === 'ValidationError') {
       res.status(400).send({ message: `Введены некорректные данные ${err}` });
-    } else if (err.message === 'NotFound') {
-      res.status(404).send({ message: 'Пользователь с таким id не найден' });
     } else {
       res.status(500).send({ message: 'Ошибка на сервере' });
     }
