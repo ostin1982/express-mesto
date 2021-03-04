@@ -5,7 +5,7 @@ const getCards = (req, res) => Card.find({})
   .catch(() => res.status(500).send({ message: 'Ошибка на сервере' }));
 
 const createCard = (req, res) => {
-  Card.create({ ...req.body })
+  Card.create({ ...req.body, owner: req.user._id })
     .then((cards) => res.status(200).send(cards))
     .catch((err) => {
       if (err.name === 'ValidationError') {
